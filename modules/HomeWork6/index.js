@@ -21,8 +21,14 @@ const animatePad = (index) => {
 const createBubble = (index) => {
   const bubble = document.createElement("div");
   visual.appendChild(bubble);
-  bubble.style.background = COLORS[index];
-  bubble.style.animation = `jump 0.3s ease`;
+
+  const color = COLORS[index];
+  bubble.style.backgroundColor = color;
+  bubble.style.animation = `jump 1.5s ease`;
+
+  bubble.addEventListener("animationend", () => {
+    bubble.style.animation = "none";
+  });
 };
 
 const play = (index) => {
