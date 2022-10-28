@@ -10,17 +10,21 @@ export default class Cart extends HTMLElement {
   }
 
   cartDataAdapter(data) {
-    return data
-      .map((item, _, arr) => {
-        return {
-          ...item,
-          quantity: arr.filter((subItem) => subItem.id === item.id).length,
-        };
-      })
-      .filter(
-        (item, index, arr) =>
-          arr.findIndex((finditem) => finditem.id === item.id) === index
-      );
+    if (data) {
+      return data
+        .map((item, _, arr) => {
+          return {
+            ...item,
+            quantity: arr.filter((subItem) => subItem.id === item.id).length,
+          };
+        })
+        .filter(
+          (item, index, arr) =>
+            arr.findIndex((finditem) => finditem.id === item.id) === index
+        );
+    } else {
+      return [];
+    }
   }
 
   initializeData() {
@@ -39,9 +43,18 @@ export default class Cart extends HTMLElement {
 
   onDeleteItem(evt) {
     if (evt.target.closest(".btn")) {
+      const storageData = storageService.getItem(STORAGE_KEYS.cartData);
       const productId = Number(evt.target.dataset.productId);
       this.data = this.data.filter((item) => item.id !== productId);
-      this.quantity = this.quantity - 1;
+      storageService.removeItem(STORAGE_KEYS.cartData);
+      storageService.setItem(STORAGE_KEYS.cartData, []);
+      storageData
+        .filter((item) => item.id !== productId)
+        .forEach((element) => {
+          storageService.setItem(STORAGE_KEYS.cartData, [element]);
+        });
+      this.quantity =
+        storageService.getItem(STORAGE_KEYS.cartData)?.length ?? 0;
       this.render();
     }
   }
