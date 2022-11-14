@@ -42,6 +42,9 @@ export default class Cart extends HTMLElement {
       const productId = Number(evt.target.dataset.productId);
       this.data = this.data.filter((item) => item.id !== productId);
       this.quantity = this.quantity - 1;
+      console.log(productId);
+
+      storageService.removeItem(productId - 1);
       this.render();
     }
   }
