@@ -1,9 +1,11 @@
 import { Component } from "../../core";
+import "../MenuList/MenuList.js";
 
 export class Menu extends Component {
   constructor() {
-    super(),
-      (this.items = [
+    super();
+    this.state = {
+      items: [
         {
           label: "link 1",
           href: "https://www.google.by/",
@@ -20,17 +22,31 @@ export class Menu extends Component {
           label: "link 4",
           href: "https://www.google.by/",
         },
-      ]);
+      ],
+    };
   }
-  componentDidMount() {}
+  static get observedAttributes() {
+    return ["isopen"];
+  }
+
   render() {
-    return this.items.reduce((accum, item, index) => {
-      return accum.concat(
-        `
-        <a class="text-center col-12 list-group-item" target="_blank" type="button" href="${this.items[index].href}">${this.items[index].label}</a>
-        `
-      );
-    }, ``);
+    const isOpen = this.props.isopen === "true" ? true : false;
+    return `
+    <div class="offcanvas offcanvas-start ${
+      isOpen && `show`
+    }" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <my-button type="button" classname="btn-close"  eventtype='menu' content="" data-bs-dismiss="offcanvas" aria-label="Close"></my-button>
+        </div>
+        <div class="list-group">
+            <my-menu-list items='${JSON.stringify(
+              this.state.items
+            )}'></my-menu-list>
+        </div>
+    </div>
+     ${isOpen ? `<div class="offcanvas-backdrop fade show"></div>` : ""}
+    `;
   }
 }
 

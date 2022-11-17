@@ -2,10 +2,16 @@ import { Component } from "../../core";
 import "./Button.scss";
 
 export class Button extends Component {
-  registerEvents() {
-    this.addEventListener("click", () => {
-      this.dispatch(this.props.eventtype);
-    });
+  onClick() {
+    this.dispatch(this.props.eventtype);
+  }
+
+  componentDidMount() {
+    this.addEventListener("click", this.onClick);
+  }
+
+  componentWillUnmount() {
+    this.removeEventListener("click", this.onClick);
   }
 
   static get observedAttributes() {
