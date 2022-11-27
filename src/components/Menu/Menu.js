@@ -2,31 +2,8 @@ import { Component } from "../../core";
 import "../MenuList/MenuList.js";
 
 export class Menu extends Component {
-  constructor() {
-    super();
-    this.state = {
-      items: [
-        {
-          label: "link 1",
-          href: "https://www.google.by/",
-        },
-        {
-          label: "link 2",
-          href: "https://www.google.by/",
-        },
-        {
-          label: "link 3",
-          href: "https://www.google.by/",
-        },
-        {
-          label: "link 4",
-          href: "https://www.google.by/",
-        },
-      ],
-    };
-  }
   static get observedAttributes() {
-    return ["isopen"];
+    return ["isopen", "items"];
   }
 
   render() {
@@ -40,9 +17,7 @@ export class Menu extends Component {
             <my-button type="button" classname="btn-close"  eventtype='menu' content="" data-bs-dismiss="offcanvas" aria-label="Close"></my-button>
         </div>
         <div class="list-group">
-            <my-menu-list items='${JSON.stringify(
-              this.state.items
-            )}'></my-menu-list>
+            <my-menu-list items='${this.props.items}'></my-menu-list>
         </div>
     </div>
      ${isOpen ? `<div class="offcanvas-backdrop fade show"></div>` : ""}

@@ -9,6 +9,26 @@ export class App extends Component {
     this.state = {
       isOpenMenu: true,
     };
+    this.props = {
+      items: [
+        {
+          label: "link 1",
+          href: "https://www.google.by/",
+        },
+        {
+          label: "link 2",
+          href: "https://www.google.by/",
+        },
+        {
+          label: "link 3",
+          href: "https://www.google.by/",
+        },
+        {
+          label: "link 4",
+          href: "https://www.google.by/",
+        },
+      ],
+    };
   }
 
   registerEvents() {
@@ -31,7 +51,9 @@ export class App extends Component {
         </div>
       </div>
     </div>
-    <my-menu isopen='${this.state.isOpenMenu}'></my-menu>
+    <my-menu items='${JSON.stringify(this.props.items)}' isopen='${
+      this.state.isOpenMenu
+    }'></my-menu>
   `;
   }
 }
